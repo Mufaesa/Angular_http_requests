@@ -9,3 +9,7 @@ This repository specifically is created to learn about http requests with Angula
 ## Things I learned
 
 * Using Firebase as a back-end
+* Calling HTTP post
+* HTTP calls require an observable to work in Angular
+* Piping get output to make data usable
+* Defining expected response of HTTP calls
