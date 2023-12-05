@@ -11,6 +11,8 @@ import { Post } from './post.model';
 })
 export class AppComponent implements OnInit {
   loadedPosts: Post[] = [];
+  firebaseUrl: string = "YOUR_FIREBASE_URL"
+  isFetching: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +26,7 @@ export class AppComponent implements OnInit {
 
     // Even though the 'postData' variable is a JavaScript object, Firebase will interpret this as json.
     this.http.post<{name: string}>(
-      'MY_FIREBASE_URL/posts.json', 
+      this.firebaseUrl + '/posts.json', 
       postData)
       .subscribe(responseData => {
         console.log(responseData);
@@ -41,8 +43,9 @@ export class AppComponent implements OnInit {
   }
 
   private fetchPosts(){
+    this.isFetching = true;
     this.http
-    .get<{ [key: string]: Post }>('MY_FIREBASE_URL/posts.json')
+    .get<{ [key: string]: Post }>(this.firebaseUrl + '/posts.json')
     .pipe(
       map(responseData => {
         const postsArray: Post[] = [];
@@ -55,6 +58,7 @@ export class AppComponent implements OnInit {
       })
     )
     .subscribe(posts => {
+      this.isFetching = false;
       this.loadedPosts = posts;
        console.log(posts);
     });
