@@ -6,7 +6,7 @@ import { Post } from "./post.model";
 
 @Injectable({providedIn: 'root'})
 export class PostsService {
-    firebaseUrl: string = "YOUR_FIREBASE_URL"
+    firebaseUrl: string = "YOUR_FIREBASE_URL/"
 
     constructor(private http: HttpClient) {}
 
@@ -34,5 +34,9 @@ export class PostsService {
             return postsArray
           })
         );
+    }
+
+    deletePosts(){
+      return this.http.delete(this.firebaseUrl + '/posts.json');
     }
 }
