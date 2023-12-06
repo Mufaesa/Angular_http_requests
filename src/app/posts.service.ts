@@ -21,21 +21,18 @@ export class PostsService {
     }
 
     fetchPosts(){
-        this.http
-    .get<{ [key: string]: Post }>(this.firebaseUrl + '/posts.json')
-    .pipe(
-      map(responseData => {
-        const postsArray: Post[] = [];
-        for (const key in responseData) {
-          if(responseData.hasOwnProperty(key)) {
-            postsArray.push({ ...responseData[key], id: key })
-          }
-        }
-        return postsArray
-      })
-    )
-    .subscribe(posts => {
-        // Pass posts to the component to use?
-    });
+      return this.http
+        .get<{ [key: string]: Post }>(this.firebaseUrl + '/posts.json')
+        .pipe(
+          map(responseData => {
+            const postsArray: Post[] = [];
+            for (const key in responseData) {
+              if(responseData.hasOwnProperty(key)) {
+                postsArray.push({ ...responseData[key], id: key })
+              }
+            }
+            return postsArray
+          })
+        );
     }
 }
