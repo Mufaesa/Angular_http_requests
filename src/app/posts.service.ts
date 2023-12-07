@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, catchError } from 'rxjs/operators'
 
@@ -27,10 +27,17 @@ export class PostsService {
 
     // GET METHOD
     fetchPosts(){
+      // Another way to add params
+      let searchParams = new HttpParams();
+      searchParams = searchParams.append('key', 'value');
+      searchParams = searchParams.append('print', 'pretty');
+
+      // Returning this http requests allows us to subscribe in our component
       return this.http
         .get<{ [key: string]: Post }>(this.firebaseUrl + '/posts.json',
         {
-          headers: new HttpHeaders({ "Custom-Header": "Hello" })
+          headers: new HttpHeaders({ "Custom-Header": "Hello" }),
+          params: new HttpParams().set('print', 'pretty')
         }
         )
         .pipe(
