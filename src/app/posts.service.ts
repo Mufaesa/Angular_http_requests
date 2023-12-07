@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, catchError } from 'rxjs/operators'
 
@@ -12,6 +12,7 @@ export class PostsService {
 
     constructor(private http: HttpClient) {}
 
+    // POST METHOD
     createAndStorePost(title: string, content: string){
         const postData: Post = {title: title, content: content};
         this.http.post<{name: string}>(
@@ -24,9 +25,14 @@ export class PostsService {
             })
     }
 
+    // GET METHOD
     fetchPosts(){
       return this.http
-        .get<{ [key: string]: Post }>(this.firebaseUrl + '/posts.json')
+        .get<{ [key: string]: Post }>(this.firebaseUrl + '/posts.json',
+        {
+          headers: new HttpHeaders({ "Custom-Header": "Hello" })
+        }
+        )
         .pipe(
           map(responseData => {
             const postsArray: Post[] = [];
@@ -44,6 +50,7 @@ export class PostsService {
         );
     }
 
+    // DELETE METHOD
     deletePosts(){
       return this.http.delete(this.firebaseUrl + '/posts.json');
     }
