@@ -17,7 +17,12 @@ export class PostsService {
         const postData: Post = {title: title, content: content};
         this.http.post<{name: string}>(
             this.firebaseUrl + '/posts.json', 
-            postData)
+            postData,
+            {
+              observe: 'response',
+              responseType: 'json'
+            }
+            )
             .subscribe(responseData => {
               console.log(responseData);
             }, error => {
